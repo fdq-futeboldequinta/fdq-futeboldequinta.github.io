@@ -41,12 +41,12 @@
   .legenda strong{color:#f5c518}
   footer{text-align:center;margin-top:28px;color:#7a8a7e;font-size:12px;font-weight:500}
   footer strong{color:#f5c518}
-  .patrocinadores{margin-top:32px;padding:24px 16px;background:#0d1f12;border:2px solid #1f4d2b;border-radius:14px}
-  .patrocinadores h2{color:#f5c518;text-align:center;font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;margin-bottom:18px}
-  .patrocinadores-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;align-items:center}
-  .patrocinador{background:#fff;padding:12px 16px;border-radius:10px;transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center;height:80px;min-width:120px}
-  .patrocinador:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(245,197,24,.3)}
-  .patrocinador img{max-height:56px;max-width:160px;object-fit:contain}
+  .patrocinadores{margin-bottom:20px}
+  .patrocinadores h2{color:#f5c518;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;margin-bottom:10px;opacity:.8;text-align:left}
+  .patrocinadores-grid{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:flex-start}
+  .patrocinador{transition:transform .2s,filter .2s;display:inline-flex;align-items:center;justify-content:center;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+  .patrocinador:hover{transform:translateY(-2px);filter:drop-shadow(0 5px 12px rgba(245,197,24,.5))}
+  .patrocinador img{max-height:48px;max-width:130px;object-fit:contain}
   .reload{position:fixed;bottom:20px;right:20px;background:#f5c518;color:#0a1d12;border:none;width:48px;height:48px;border-radius:50%;font-size:20px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-weight:900;transition:transform .2s}
   .reload:hover{transform:rotate(180deg)}
   @media(max-width:600px){
@@ -59,6 +59,11 @@
 </head>
 <body>
 <div class="wrap">
+  <section id="patrocinadores-sec" class="patrocinadores" style="display:none">
+    <h2>Patrocinadores</h2>
+    <div id="patrocinadores-grid" class="patrocinadores-grid"></div>
+  </section>
+
   <header>
     <img src="logo.png" alt="FDQ — Futebol de Quinta">
     <h1>FDQ 2026</h1>
@@ -74,11 +79,6 @@
   <div id="sem1" class="panel active"></div>
   <div id="sem2" class="panel"></div>
   <div id="artilharia" class="panel"></div>
-
-  <section id="patrocinadores-sec" class="patrocinadores" style="display:none">
-    <h2>Patrocinadores</h2>
-    <div id="patrocinadores-grid" class="patrocinadores-grid"></div>
-  </section>
 
   <footer><strong>FUTEBOL DE QUINTA</strong> • desde 2021</footer>
 </div>
