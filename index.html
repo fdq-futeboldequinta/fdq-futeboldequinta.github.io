@@ -9,8 +9,8 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#1a3d28;background-image:radial-gradient(ellipse at top,#2f6b42 0%,#1a3d28 60%);color:#e8e8e8;min-height:100vh;-webkit-text-size-adjust:100%}
   .wrap{max-width:1100px;margin:0 auto;padding:24px 16px}
-  header{margin-bottom:28px;display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:nowrap}
-  .header-center{text-align:center;flex:0 0 auto}
+  header{margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:nowrap}
+  .header-center{text-align:center;flex:1 1 auto}
   .header-center img.logo-fdq{width:140px;height:140px;border-radius:50%;box-shadow:0 8px 30px rgba(0,0,0,.5),0 0 0 4px #f5c518;margin-bottom:14px}
   .header-center h1{font-size:clamp(26px,5vw,42px);font-weight:900;letter-spacing:.02em;color:#f5c518;text-shadow:2px 2px 0 #000,0 0 20px rgba(245,197,24,.3);text-transform:uppercase;font-style:italic}
   .header-center p{color:#cfd8d2;margin-top:4px;font-size:14px;font-weight:500;letter-spacing:.05em}
@@ -43,9 +43,9 @@
   .legenda strong{color:#f5c518}
   footer{text-align:center;margin-top:28px;color:#7a8a7e;font-size:12px;font-weight:500}
   footer strong{color:#f5c518}
-  .patrocinador{transition:transform .2s,filter .2s;display:flex;align-items:center;justify-content:center;width:130px;height:80px;padding:6px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+  .patrocinador{transition:transform .2s,filter .2s;display:flex;align-items:center;justify-content:center;width:170px;height:110px;padding:6px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
   .patrocinador:hover{transform:translateY(-2px) scale(1.05);filter:drop-shadow(0 6px 14px rgba(245,197,24,.5))}
-  .patrocinador img{max-height:75px;max-width:120px;object-fit:contain}
+  .patrocinador img{max-height:105px;max-width:160px;object-fit:contain}
   .reload{position:fixed;bottom:20px;right:20px;background:#f5c518;color:#0a1d12;border:none;width:48px;height:48px;border-radius:50%;font-size:20px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-weight:900;transition:transform .2s}
   .reload:hover{transform:rotate(180deg)}
   @media(max-width:1100px){
