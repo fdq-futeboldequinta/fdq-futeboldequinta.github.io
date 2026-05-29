@@ -41,12 +41,20 @@
   .pos{font-weight:900;color:#cfd8d2;width:42px;font-size:15px}
   .pts{font-weight:900;color:#f5c518;font-size:16px}
   .negativos.bad{color:#e84a1f;font-weight:700}
-  .ultimas{display:inline-flex;gap:3px;align-items:center;justify-content:center}
-  .ultimas .dot{width:11px;height:11px;border-radius:50%;display:inline-block;box-shadow:0 0 0 1px rgba(0,0,0,.35) inset}
-  .ultimas .dot.v{background:#4ade80}
+  .ultimas{display:inline-flex;gap:4px;align-items:center;justify-content:center}
+  .ultimas .dot{width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:12px;line-height:1;font-family:Arial,sans-serif;box-shadow:0 1px 2px rgba(0,0,0,.4)}
+  .ultimas .dot.v{background:#22c55e}
+  .ultimas .dot.v::before{content:"\2714"}
   .ultimas .dot.d{background:#e84a1f}
-  .ultimas .dot.e{background:#f5c518}
-  .ultimas.vazio{color:#5a6a5e;font-style:italic;font-size:11px}
+  .ultimas .dot.d::before{content:"\2715"}
+  .ultimas .dot.e{background:#f5c518;color:#0a1d12}
+  .ultimas .dot.e::before{content:"="}
+  .ultimas .dot.n{background:#5a6a5e}
+  .ultimas .dot.n::before{content:"\2013"}
+  @media(max-width:520px){
+    .ultimas{gap:3px}
+    .ultimas .dot{width:17px;height:17px;font-size:10px}
+  }
   .empty{text-align:center;padding:50px 20px;color:#7a8a7e;font-style:italic}
   .legenda{padding:16px 20px;background:#0a1d12;border-top:2px solid #1f4d2b;font-size:13px;color:#cfd8d2;line-height:1.8}
   .legenda strong{color:#f5c518}
@@ -224,18 +232,20 @@ function renderTabela(panelId, dadosOriginais, cols, comLegenda){
           }
           html += `<td class="nome">${v}${deltaHtml}</td>`;
         } else if(c.k === 'ultimas'){
+          const N = 5;
           const mapa = (DADOS.ultimas_resultados && DADOS.ultimas_resultados[panelId]) || {};
           const arr = mapa[r.nome] || [];
-          if(arr.length === 0){
-            html += `<td><span class="ultimas vazio">—</span></td>`;
-          } else {
-            const dots = arr.map(x => {
-              const cls = x === 'V' ? 'v' : (x === 'D' ? 'd' : 'e');
-              const tit = x === 'V' ? 'Vitória' : (x === 'D' ? 'Derrota' : 'Empate');
-              return `<span class="dot ${cls}" title="${tit}"></span>`;
-            }).join('');
-            html += `<td><span class="ultimas">${dots}</span></td>`;
-          }
+          // preenche com placeholders à esquerda (mais antigo) até totalizar N
+          const faltam = Math.max(0, N - arr.length);
+          const cells = [];
+          for(let i=0;i<faltam;i++) cells.push({c:'n', t:'Sem jogo'});
+          arr.forEach(x => {
+            if(x === 'V') cells.push({c:'v', t:'Vitória'});
+            else if(x === 'D') cells.push({c:'d', t:'Derrota'});
+            else cells.push({c:'e', t:'Empate'});
+          });
+          const dots = cells.map(d => `<span class="dot ${d.c}" title="${d.t}"></span>`).join('');
+          html += `<td><span class="ultimas">${dots}</span></td>`;
         } else {
           const txt = c.fmt ? c.fmt(v) : (v===''||v==null?'-':v);
           let cls = c.cls || '';
