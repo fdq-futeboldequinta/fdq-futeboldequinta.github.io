@@ -524,10 +524,10 @@ function renderCalendario(){
         let res = 'res-e';
         if(g.placar_fdq > g.placar_adv) res = 'res-v';
         else if(g.placar_fdq < g.placar_adv) res = 'res-d';
-        html += `<div class="placar"><span class="${res}">FDQ ${g.placar_fdq} × ${g.placar_adv} ${g.adversario}</span></div>`;
+        html += `<div class="placar"><span class="${res}">FDQAMPO ${g.placar_fdq} × ${g.placar_adv} ${g.adversario}</span></div>`;
         if(g.gols && g.gols.length){
           const lista = g.gols.map(x => typeof x === 'string' ? x : (x.jogador + (x.qtd>1?' ('+x.qtd+')':'')));
-          html += `<div class="gols">⚽ <strong>Gols FDQ:</strong> ${lista.join(', ')}</div>`;
+          html += `<div class="gols">⚽ <strong>Gols FDQAMPO:</strong> ${lista.join(', ')}</div>`;
         }
       } else {
         const hojeIso2 = `${hoje.getFullYear()}-${String(hoje.getMonth()+1).padStart(2,'0')}-${String(hoje.getDate()).padStart(2,'0')}`;
