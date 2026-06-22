@@ -409,7 +409,7 @@ function renderCalendario(){
       html += `<div class="${classes.join(' ')}" data-iso="${iso}"><div class="cal-num">${d}</div>`;
       if(ev){
         if(ev.society){
-          html += `<span class="cal-badge society" title="Society FDQ">⚽ FDQ</span>`;
+          html += `<span class="cal-badge society" title="Society FDQ">🟢 FDQ</span>`;
         }
         if(ev.campo){
           let extra = '';
@@ -419,7 +419,7 @@ function renderCalendario(){
             else if(g.placar_fdq < g.placar_adv) extra = ' d';
             else extra = ' e';
           }
-          html += `<span class="cal-badge campo${extra}" title="${g.adversario}">vs ${g.adversario}</span>`;
+          html += `<span class="cal-badge campo${extra}" title="${g.adversario}">⚽ ${g.adversario}</span>`;
         }
       }
       html += '</div>';
@@ -484,11 +484,11 @@ function renderCalendario(){
     const diaSem = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'][dt.getDay()];
     let html = `<h3>📅 ${diaSem}, ${dataFmt}</h3>`;
     if(ev.society){
-      html += '<div class="meta">⚽ <strong>Society FDQ</strong> — campo do FDQ</div>';
+      html += '<div class="meta">🟢 <strong>Society FDQ</strong> — quinta no campo do FDQ</div>';
     }
     if(ev.campo){
       const g = ev.campo;
-      html += `<div class="meta" style="margin-top:8px"><strong>🏆 Jogo de Campo</strong></div>`;
+      html += `<div class="meta" style="margin-top:8px">⚽ <strong>Jogo de Campo</strong></div>`;
       html += `<div class="meta">vs <strong>${g.adversario}</strong> · ${g.regiao}</div>`;
       if(g.placar_fdq != null && g.placar_adv != null){
         let res = 'res-e';
