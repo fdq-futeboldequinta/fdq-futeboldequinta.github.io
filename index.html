@@ -75,6 +75,10 @@
   .cal-badge.campo{display:flex;flex-direction:column;gap:1px;padding:3px 4px;line-height:1.15;white-space:normal}
   .cal-badge.campo .badge-top{font-size:9px;font-weight:800;letter-spacing:.04em}
   .cal-badge.campo .badge-bot{font-size:10px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cal-clima{font-size:10px;color:#cfd8d2;display:flex;align-items:center;gap:2px;justify-content:center;margin-top:auto;line-height:1}
+  .cal-clima .ico{font-size:13px}
+  .cal-detalhe .clima{margin-top:10px;padding:8px 10px;background:#143820;border-radius:6px;font-size:13px;color:#cfd8d2;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .cal-detalhe .clima .ico{font-size:22px}
   .cal-badge.society{background:#22c55e;color:#0a1d12}
   .cal-badge.campo{background:#f5c518;color:#0a1d12}
   .cal-badge.campo.v{background:#22c55e;color:#0a1d12}
@@ -340,6 +344,49 @@ renderTabela('sem2', DADOS.sem2, COLS_CLASS, true);
 renderTabela('artilharia', DADOS.artilharia, COLS_ART, false);
 renderCalendario();
 
+// Mapa de códigos WMO (Open-Meteo) -> ícone + descrição
+const WMO = {
+  0:['☀️','Céu limpo'], 1:['🌤️','Parcialmente limpo'], 2:['⛅','Parcialmente nublado'], 3:['☁️','Nublado'],
+  45:['🌫️','Neblina'], 48:['🌫️','Neblina com geada'],
+  51:['🌦️','Garoa fraca'], 53:['🌦️','Garoa'], 55:['🌦️','Garoa intensa'],
+  56:['🌧️','Garoa congelante'], 57:['🌧️','Garoa congelante forte'],
+  61:['🌧️','Chuva fraca'], 63:['🌧️','Chuva'], 65:['🌧️','Chuva forte'],
+  66:['🌧️','Chuva congelante'], 67:['🌧️','Chuva congelante forte'],
+  71:['🌨️','Neve fraca'], 73:['🌨️','Neve'], 75:['🌨️','Neve forte'],
+  77:['🌨️','Grãos de neve'],
+  80:['🌦️','Pancadas fracas'], 81:['🌧️','Pancadas'], 82:['⛈️','Pancadas fortes'],
+  85:['🌨️','Pancadas de neve'], 86:['🌨️','Pancadas de neve fortes'],
+  95:['⛈️','Trovoada'], 96:['⛈️','Trovoada com granizo'], 99:['⛈️','Trovoada com granizo forte']
+};
+
+let CLIMA_CACHE = null;
+
+async function carregarClima(){
+  if(CLIMA_CACHE) return CLIMA_CACHE;
+  try {
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=-30.0277&longitude=-51.2287&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code&timezone=America%2FSao_Paulo&forecast_days=16';
+    const r = await fetch(url);
+    if(!r.ok) return null;
+    const j = await r.json();
+    const map = {};
+    const d = j.daily;
+    if(d && d.time){
+      d.time.forEach((iso, i) => {
+        map[iso] = {
+          tmax: Math.round(d.temperature_2m_max[i]),
+          tmin: Math.round(d.temperature_2m_min[i]),
+          chuva: d.precipitation_probability_max[i],
+          code: d.weather_code[i],
+        };
+      });
+    }
+    CLIMA_CACHE = map;
+    return map;
+  } catch(e){
+    return null;
+  }
+}
+
 function renderCalendario(){
   const cal = DADOS.calendario || {field_games:[], society:[]};
   const panel = document.getElementById('calendario');
@@ -384,6 +431,8 @@ function renderCalendario(){
   }
 
   let diaSelecionado = null;
+  let CLIMA = null;
+  carregarClima().then(c => { CLIMA = c; if(c) desenhar(); });
 
   function isoData(a,m,d){
     return `${a}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
@@ -433,6 +482,12 @@ function renderCalendario(){
             extra = ' realizado';
           }
           html += `<span class="cal-badge campo${extra}" title="FDQAMPO × ${g.adversario}"><span class="badge-top">⚽ FDQAMPO</span><span class="badge-bot">vs ${g.adversario}</span></span>`;
+        }
+        // previsão do tempo (até 16 dias)
+        if(CLIMA && CLIMA[iso]){
+          const c = CLIMA[iso];
+          const w = WMO[c.code] || ['','—'];
+          html += `<span class="cal-clima" title="${w[1]} · Máx ${c.tmax}° · Mín ${c.tmin}° · Chuva ${c.chuva}%"><span class="ico">${w[0]}</span> ${c.tmax}°</span>`;
         }
       }
       html += '</div>';
@@ -546,6 +601,12 @@ function renderCalendario(){
         }
       }
       if(g.obs) html += `<div class="meta" style="margin-top:6px">📝 ${g.obs}</div>`;
+    }
+    // bloco de clima no detalhe (society ou campo)
+    if(CLIMA && CLIMA[diaSelecionado]){
+      const c = CLIMA[diaSelecionado];
+      const w = WMO[c.code] || ['🌡️','—'];
+      html += `<div class="clima"><span class="ico">${w[0]}</span><span><strong>${w[1]}</strong> · Máx ${c.tmax}° · Mín ${c.tmin}° · 💧 ${c.chuva}% chuva</span></div>`;
     }
     det.innerHTML = html;
     det.classList.add('show');
