@@ -491,6 +491,10 @@ function renderCalendario(){
     let html = `<h3>📅 ${diaSem}, ${dataFmt}</h3>`;
     if(ev.society){
       html += '<div class="meta">🟢 <strong>Society FDQ</strong></div>';
+      const hojeIso3 = `${hoje.getFullYear()}-${String(hoje.getMonth()+1).padStart(2,'0')}-${String(hoje.getDate()).padStart(2,'0')}`;
+      if(!ev.societyResult && diaSelecionado >= hojeIso3){
+        html += '<div class="meta" style="color:#f5c518;margin-top:6px">⏳ Ainda será realizado</div>';
+      }
       if(ev.societyResult){
         const s = ev.societyResult;
         if(s.rodada) html += `<div class="meta" style="margin-top:4px">Rodada ${s.rodada}</div>`;
