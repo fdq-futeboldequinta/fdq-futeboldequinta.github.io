@@ -490,7 +490,7 @@ function renderCalendario(){
     const diaSem = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'][dt.getDay()];
     let html = `<h3>📅 ${diaSem}, ${dataFmt}</h3>`;
     if(ev.society){
-      html += '<div class="meta">🟢 <strong>Society FDQ</strong> — quinta no campo do FDQ</div>';
+      html += '<div class="meta">🟢 <strong>Society FDQ</strong></div>';
       if(ev.societyResult){
         const s = ev.societyResult;
         if(s.rodada) html += `<div class="meta" style="margin-top:4px">Rodada ${s.rodada}</div>`;
